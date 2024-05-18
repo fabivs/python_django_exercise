@@ -1,0 +1,14 @@
+version: "1.0"
+
+services:
+  python-example-db:
+    image: postgres
+    restart: unless-stopped
+    hostname: localhost
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: python_example
+      POSTGRES_USER: python_example
+      POSTGRES_PASSWORD: python_example
+

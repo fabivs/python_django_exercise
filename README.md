@@ -1,3 +1,12 @@
+# Project setup (with make)
+Required: python (pyenv suggested), poetry, postgres, docker
+- activate a venv: `make shell`
+- install deps: `make deps`
+- start the database: `make up`
+- execute migrations: `make migrate`
+
+Run the server: `make run`
+
 # Python Developer - Assignment
 
 L'esercizio consiste due fasi: importare dati in un database relazionale ed esporli tramite API REST.
