@@ -1,4 +1,4 @@
-.PHONY: up halt deps deps-update shell run migrate
+.PHONY: up halt deps deps-update shell run migrate format check-formatted
 
 up:
 	docker-compose up -d
@@ -20,3 +20,9 @@ run:
 
 migrate:
 	python manage.py migrate
+
+format:
+	python -m black .
+
+check:
+	python -m black --check .

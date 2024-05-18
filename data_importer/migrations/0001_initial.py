@@ -7,20 +7,27 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Report',
+            name="Report",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date', models.DateField()),
-                ('restaurant', models.CharField(max_length=100)),
-                ('planned_hours', models.IntegerField()),
-                ('actual_hours', models.IntegerField()),
-                ('budget', models.DecimalField(decimal_places=2, max_digits=10)),
-                ('sells', models.DecimalField(decimal_places=2, max_digits=10)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("date", models.DateField()),
+                ("restaurant", models.CharField(max_length=100)),
+                ("planned_hours", models.IntegerField()),
+                ("actual_hours", models.IntegerField()),
+                ("budget", models.DecimalField(decimal_places=2, max_digits=10)),
+                ("sells", models.DecimalField(decimal_places=2, max_digits=10)),
             ],
         ),
     ]
