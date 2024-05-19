@@ -1,4 +1,4 @@
-.PHONY: up halt deps deps-update shell run db-migrate db-flush format check-formatted
+.PHONY: up halt deps deps-update shell run db-migrate db-flush format check-formatted test
 
 up:
 	docker-compose up -d
@@ -29,3 +29,6 @@ format:
 
 check:
 	python -m black --check .
+
+test:
+	./manage.py test

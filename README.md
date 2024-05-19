@@ -5,7 +5,12 @@ Required: python (pyenv suggested), poetry, postgres, docker
 - start the database: `make up`
 - execute migrations: `make db-migrate`
 
-Run the server: `make run`
+# Run the project
+- Import the records from `dataset.csv`: `python manage.py import_reports` (optionally, a filename can be passed as argument)
+- Run the server: `make run`
+
+# Run tests
+- `make test`
 
 # Python Developer - Assignment
 

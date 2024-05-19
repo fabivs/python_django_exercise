@@ -8,20 +8,18 @@ class Command(BaseCommand):
     help = "Imports the reports data from a csv dataset"
 
     def add_arguments(self, parser):
-        parser.add_argument('filename', type=str, nargs='?', default="dataset.csv")
+        parser.add_argument("filename", type=str, nargs="?", default="dataset.csv")
 
     def handle(self, *args, **options):
         filename = options["filename"]
-        self.stdout.write(self.style.SUCCESS(
-            f"Importing records from {filename}..."))
-        imported_counter = import_reports(filename)
+        self.stdout.write(self.style.SUCCESS(f"Importing records from {filename}..."))
+        imported_counter = perform_import(filename)
         self.stdout.write(
-            self.style.SUCCESS(
-                f"Successfully imported {imported_counter} records.")
+            self.style.SUCCESS(f"Successfully imported {imported_counter} records.")
         )
 
 
-def import_reports(filename):
+def perform_import(filename):
     with open(filename, "r") as file:
         reader = csv.DictReader(file)
         imported_counter = 0

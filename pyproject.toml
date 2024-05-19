@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "python-simple-web-app"
+name = "simple-web-app"
 version = "0.1.0"
 description = ""
 authors = ["Fabio Prizio <fabio.prizio@casavo.com>"]

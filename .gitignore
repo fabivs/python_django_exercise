@@ -1,5 +1,7 @@
 .venv
 
+test_dataset.csv
+
 # Django #
 *.log
 *.pot
