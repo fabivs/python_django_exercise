@@ -8,7 +8,7 @@ class Command(BaseCommand):
     help = "Imports the reports data from a csv dataset"
 
     def add_arguments(self, parser):
-        parser.add_argument("--filename", type=str, required=True)
+        parser.add_argument('filename', type=str, nargs='?', default="dataset.csv")
 
     def handle(self, *args, **options):
         filename = options["filename"]
