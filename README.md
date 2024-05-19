@@ -3,7 +3,7 @@ Required: python (pyenv suggested), poetry, postgres, docker
 - activate a venv: `make shell`
 - install deps: `make deps`
 - start the database: `make up`
-- execute migrations: `make migrate`
+- execute migrations: `make db-migrate`
 
 Run the server: `make run`
 
