@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "simple-web-app"
+name = "python-django-exercise"
 version = "0.1.0"
 description = ""
 authors = ["Fabio Prizio <fabio.prizio@casavo.com>"]
