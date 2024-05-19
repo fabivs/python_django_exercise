@@ -12,19 +12,19 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         filename = options["filename"]
-        imported_records_count = import_reports(filename)
+        self.stdout.write(self.style.SUCCESS(
+            f"Importing records from {filename}..."))
+        imported_counter = import_reports(filename)
         self.stdout.write(
             self.style.SUCCESS(
-                f"Reports successfully imported {imported_records_count} records from {filename}!"
-            )
+                f"Successfully imported {imported_counter} records.")
         )
 
 
 def import_reports(filename):
     with open(filename, "r") as file:
         reader = csv.DictReader(file)
-        imported_records_count = 0
-
+        imported_counter = 0
         for row in reader:
             Report.objects.create(
                 date=datetime.strptime(row["date"], "%Y-%m-%d").date(),
@@ -34,6 +34,6 @@ def import_reports(filename):
                 budget=row["budget"],
                 sells=row["sells"],
             )
-            imported_records_count += 1
+            imported_counter += 1
 
-    return imported_records_count
+    return imported_counter
