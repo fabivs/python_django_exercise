@@ -1,14 +1,12 @@
 from django.test import TestCase
-from data_importer.management.commands.import_reports import perform_import
+from django.core.management.base import CommandError
+from data_importer.management.commands.import_reports import execute
 from data_importer.models import Report
 import csv
 from decimal import Decimal
-
-from django.db import connection
-from django.test.utils import CaptureQueriesContext
+import os
 
 test_file_path = "./test_dataset.csv"
-csv_header = ["date", "restaurant", "planned_hours", "actual_hours", "budget", "sells"]
 
 
 class TestImportReports(TestCase):
@@ -19,12 +17,14 @@ class TestImportReports(TestCase):
             ["2016-01-01", "Third Restaurant", 30, 156, 116.99, 3967.95],
         ]
 
-        with open(test_file_path, "w", newline="") as csv_file:
-            write = csv.writer(csv_file, quoting=csv.QUOTE_ALL)
-            write.writerows([csv_header] + csv_lines)
+        _write_test_csv_file(csv_lines)
 
-    def test_happy_path(self):
-        perform_import(test_file_path)
+    def tearDown(self) -> None:
+        os.remove(test_file_path)
+        return super().tearDown()
+
+    def test_import_reports_happy_path(self):
+        execute(test_file_path)
         self.assertEqual(Report.objects.count(), 3)
 
         first_report = Report.objects.get(restaurant="First Restaurant")
@@ -35,8 +35,37 @@ class TestImportReports(TestCase):
         self.assertEqual(first_report.sells, Decimal("2801.33"))
 
 
-# test with invalid filename
+class TestImportReportsErrors(TestCase):
+    def tearDown(self) -> None:
+        if os.path.exists(test_file_path):
+            os.remove(test_file_path)
+        return super().tearDown()
 
-# test_import_reports_with_invalid_data
+    def test_import_reports_file_not_found(self):
+        with self.assertRaisesMessage(
+            CommandError, "File ./just_a_random_file_path.csv does not exist"
+        ):
+            execute("./just_a_random_file_path.csv")
 
-# use self.assertRaises(CommandError)
+    def test_import_reports_with_invalid_data(self):
+        # TODO
+        csv_lines = []
+
+        _write_test_csv_file(csv_lines)
+
+        return None
+
+
+def _write_test_csv_file(csv_lines):
+    csv_header = [
+        "date",
+        "restaurant",
+        "planned_hours",
+        "actual_hours",
+        "budget",
+        "sells",
+    ]
+
+    with open(test_file_path, "w", newline="") as csv_file:
+        write = csv.writer(csv_file, quoting=csv.QUOTE_ALL)
+        write.writerows([csv_header] + csv_lines)
