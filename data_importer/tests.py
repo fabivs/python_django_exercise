@@ -47,13 +47,23 @@ class TestImportReportsErrors(TestCase):
         ):
             execute("./just_a_random_file_path.csv")
 
-    def test_import_reports_with_invalid_data(self):
-        # TODO
-        csv_lines = []
+    def test_import_reports_with_invalid_date(self):
+        invalid_csv_line = ["Not-a-date", "Name", 141, 176, 4025.65, 2801.33]
+        _write_test_csv_file([invalid_csv_line])
+        with self.assertRaisesMessage(CommandError, "Invalid data in csv at row 2"):
+            execute(test_file_path)
 
-        _write_test_csv_file(csv_lines)
+    def test_import_reports_with_invalid_hours(self):
+        invalid_csv_line = ["2024-01-01", "Name", "Not an int", 176, 4025.65, 2801.33]
+        _write_test_csv_file([invalid_csv_line])
+        with self.assertRaisesMessage(CommandError, "Invalid data in csv at row 2"):
+            execute(test_file_path)
 
-        return None
+    def test_import_reports_with_invalid_budget(self):
+        invalid_csv_line = ["2024-01-01", "Name", 141, 176, "Not a decimal", 2801.33]
+        _write_test_csv_file([invalid_csv_line])
+        with self.assertRaisesMessage(CommandError, "Invalid data in csv at row 2"):
+            execute(test_file_path)
 
 
 def _write_test_csv_file(csv_lines):
@@ -65,7 +75,6 @@ def _write_test_csv_file(csv_lines):
         "budget",
         "sells",
     ]
-
     with open(test_file_path, "w", newline="") as csv_file:
         write = csv.writer(csv_file, quoting=csv.QUOTE_ALL)
         write.writerows([csv_header] + csv_lines)
