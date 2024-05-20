@@ -3,8 +3,8 @@ from .models import Report
 
 
 class ReportSerializer(serializers.ModelSerializer):
-    hours_difference = serializers.ReadOnlyField()
-    budget_difference = serializers.ReadOnlyField()
+    hours_difference = serializers.IntegerField()
+    budget_difference = serializers.DecimalField(max_digits=10, decimal_places=2)
 
     class Meta:
         model = Report
