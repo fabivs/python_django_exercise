@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.core.management.base import CommandError
-from data_importer.management.commands.import_reports import execute
-from data_importer.models import Report
+from reports.management.commands.import_reports import execute
+from reports.models import Report
 import csv
 from decimal import Decimal
 import os

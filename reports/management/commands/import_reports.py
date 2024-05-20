@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
 import csv
 from datetime import datetime
-from data_importer.models import Report
+from reports.models import Report
 import os
 from django.core.exceptions import ValidationError
 
