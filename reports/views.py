@@ -3,7 +3,7 @@ from .models import Report
 from .serializers import ReportSerializer
 
 
-class ReportViewSet(viewsets.ModelViewSet):
+class ReportViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API endpoint that allows reports to be viewed.
     """
