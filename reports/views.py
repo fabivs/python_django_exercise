@@ -39,18 +39,17 @@ class AggregateReportFilter(filters.FilterSet):
 
 
 class AggregateReportView(ListAPIView):
-    queryset = Report.objects.all().order_by("id")
+    queryset = Report.objects.all()
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = AggregateReportFilter
 
     def get(self, request):
         """
-        Return an aggregate report given a date or a restaurant name,
-        the aggregate report contains the sum of all the values from
+        Given a date or a restaurant name, return an aggregate report.
+        The aggregate report contains the sum of all the values from
         the obtained reports.
         """
 
-        # integrate this in the filter, maybe override filter_queryset ?
         restaurant = request.query_params.get("restaurant")
         date = request.query_params.get("date")
         if not (restaurant or date):
@@ -67,11 +66,11 @@ class AggregateReportView(ListAPIView):
             total_sells=Sum("sells"),
         )
 
-        aggregate_report["total_hours_difference"] = (
+        aggregate_report["total_planned_actual_hours_difference"] = (
             aggregate_report["total_planned_hours"]
             - aggregate_report["total_actual_hours"]
         )
-        aggregate_report["total_budget_difference"] = (
+        aggregate_report["total_budget_sells_difference"] = (
             aggregate_report["total_budget"] - aggregate_report["total_sells"]
         )
 

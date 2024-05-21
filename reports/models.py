@@ -10,9 +10,9 @@ class Report(models.Model):
     sells = models.DecimalField(max_digits=10, decimal_places=2)
 
     @property
-    def hours_difference(self):
+    def planned_actual_hours_difference(self):
         return self.planned_hours - self.actual_hours
 
     @property
-    def budget_difference(self):
+    def budget_sells_difference(self):
         return self.budget - self.sells
