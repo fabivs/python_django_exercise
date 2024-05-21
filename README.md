@@ -5,12 +5,16 @@ Required: python (pyenv suggested), poetry, postgres, docker
 - start the database: `make up`
 - execute migrations: `make db-migrate`
 
-# Run the project
-- Import the records from `dataset.csv`: `python manage.py import_reports` (optionally, a filename can be passed as argument)
-- Run the server: `make run`
-
 # Run tests
 - `make test`
+
+# Run the project
+- Import the records from `dataset.csv`: `python manage.py import_reports` (optionally, a different filename can be passed as argument)
+- Run the server: `make run`
+
+## Using the APIs
+With the server running, it is possible to call its APIs:
+- `GET /api/v1/reports` - get all reports
 
 # Python Developer - Assignment
 

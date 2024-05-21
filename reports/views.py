@@ -1,12 +1,15 @@
-from rest_framework import viewsets
+from rest_framework.views import APIView
+from rest_framework.response import Response
 from .models import Report
 from .serializers import ReportSerializer
 
 
-class ReportViewSet(viewsets.ReadOnlyModelViewSet):
-    """
-    API endpoint that allows reports to be viewed.
-    """
+class ListReportsView(APIView):
+    def get(self, request, format=None):
+        """
+        Return a list of all reports.
+        """
 
-    queryset = Report.objects.all().order_by("id")
-    serializer_class = ReportSerializer
+        reports = Report.objects.all().order_by("id")
+        serializer = ReportSerializer(reports, many=True)
+        return Response(serializer.data)
