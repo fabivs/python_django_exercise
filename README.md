@@ -30,10 +30,10 @@ budget Budget
 -budget Budget (descending)
 sells Sells
 -sells Sells (descending)
-planned_actual_hours_difference Planned actual hours difference
--planned_actual_hours_difference Planned actual hours difference (descending)
-budget_sells_difference Budget sells difference
--budget_sells_difference Budget sells difference (descending)
+planned_actual_hours_delta Planned actual hours delta
+-planned_actual_hours_delta Planned actual hours delta (descending)
+budget_sells_delta Budget sells delta
+-budget_sells_delta Budget sells delta (descending)
 ```
 
 # Python Developer - Assignment

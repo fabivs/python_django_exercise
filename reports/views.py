@@ -19,28 +19,18 @@ class ReportFilter(filters.FilterSet):
             ("actual_hours", "actual_hours"),
             ("budget", "budget"),
             ("sells", "sells"),
-            ("planned_actual_hours_difference", "planned_actual_hours_difference"),
-            ("budget_sells_difference", "budget_sells_difference"),
         ),
     )
 
     class Meta:
         model = Report
-        fields = ["restaurant"]
+        fields = []
 
 
 class ListReportsView(ListAPIView):
     queryset = Report.objects.all().order_by("id")
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = ReportFilter
-    ordering_fields = [
-        "planned_hours",
-        "actual_hours",
-        "budget",
-        "sells",
-        "planned_actual_hours_difference",
-        "budget_sells_difference",
-    ]
 
     def get(self, request, format=None):
         """
@@ -89,11 +79,11 @@ class AggregateReportView(ListAPIView):
             total_sells=Sum("sells"),
         )
 
-        aggregate_report["total_planned_actual_hours_difference"] = (
+        aggregate_report["total_planned_actual_hours_delta"] = (
             aggregate_report["total_planned_hours"]
             - aggregate_report["total_actual_hours"]
         )
-        aggregate_report["total_budget_sells_difference"] = (
+        aggregate_report["total_budget_sells_delta"] = (
             aggregate_report["total_budget"] - aggregate_report["total_sells"]
         )
 
