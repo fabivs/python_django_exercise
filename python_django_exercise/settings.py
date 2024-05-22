@@ -129,7 +129,7 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# Delete me: SQL queries logging
+# SQL queries logging
 # LOGGING = {
 # 	'version': 1,
 # 	'disable_existing_loggers': False,
