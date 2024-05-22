@@ -6,13 +6,6 @@ from django_filters import rest_framework as filters
 from django.db.models import Sum, F
 
 
-def all_reports_with_computed_deltas():
-    return Report.objects.all().annotate(
-        planned_actual_hours_delta=F("planned_hours") - F("actual_hours"),
-        budget_sells_delta=F("budget") - F("sells"),
-    )
-
-
 class ReportFilter(filters.FilterSet):
     restaurant = filters.CharFilter(lookup_expr="exact")
     date__gte = filters.DateFilter(field_name="date", lookup_expr="gte")
@@ -37,7 +30,7 @@ class ReportFilter(filters.FilterSet):
 
 
 class ListReportsView(ListAPIView):
-    queryset = all_reports_with_computed_deltas()
+    queryset = Report.objects.all()
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = ReportFilter
 
@@ -61,7 +54,7 @@ class AggregateReportFilter(filters.FilterSet):
 
 
 class AggregateReportView(ListAPIView):
-    queryset = all_reports_with_computed_deltas()
+    queryset = Report.objects.all()
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = AggregateReportFilter
 

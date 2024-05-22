@@ -33,6 +33,8 @@ class TestImportReports(TestCase):
         self.assertEqual(first_report.actual_hours, 176)
         self.assertEqual(first_report.budget, Decimal("4025.65"))
         self.assertEqual(first_report.sells, Decimal("2801.33"))
+        self.assertEqual(first_report.planned_actual_hours_delta, -35)
+        self.assertEqual(first_report.budget_sells_delta, Decimal("1224.32"))
 
 
 class TestImportReportsErrors(TestCase):
