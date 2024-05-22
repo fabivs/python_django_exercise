@@ -8,11 +8,3 @@ class Report(models.Model):
     actual_hours = models.IntegerField()
     budget = models.DecimalField(max_digits=10, decimal_places=2)
     sells = models.DecimalField(max_digits=10, decimal_places=2)
-
-    @property
-    def planned_actual_hours_delta(self):
-        return self.planned_hours - self.actual_hours
-
-    @property
-    def budget_sells_delta(self):
-        return self.budget - self.sells

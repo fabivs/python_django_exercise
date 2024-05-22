@@ -6,6 +6,13 @@ from django_filters import rest_framework as filters
 from django.db.models import Sum, F
 
 
+def all_reports_with_computed_deltas():
+    return Report.objects.all().annotate(
+        planned_actual_hours_delta=F("planned_hours") - F("actual_hours"),
+        budget_sells_delta=F("budget") - F("sells"),
+    )
+
+
 class ReportFilter(filters.FilterSet):
     restaurant = filters.CharFilter(lookup_expr="exact")
     date__gte = filters.DateFilter(field_name="date", lookup_expr="gte")
@@ -30,12 +37,7 @@ class ReportFilter(filters.FilterSet):
 
 
 class ListReportsView(ListAPIView):
-    queryset = Report.objects.all().alias(
-        # duplicated logic with the model properties, but uses the DB for ordering
-        # which is more efficient
-        planned_actual_hours_delta=F("planned_hours") - F("actual_hours"),
-        budget_sells_delta=F("budget") - F("sells"),
-    )
+    queryset = all_reports_with_computed_deltas()
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = ReportFilter
 
@@ -59,7 +61,7 @@ class AggregateReportFilter(filters.FilterSet):
 
 
 class AggregateReportView(ListAPIView):
-    queryset = Report.objects.all()
+    queryset = all_reports_with_computed_deltas()
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = AggregateReportFilter
 
@@ -84,14 +86,8 @@ class AggregateReportView(ListAPIView):
             total_actual_hours=Sum("actual_hours"),
             total_budget=Sum("budget"),
             total_sells=Sum("sells"),
-        )
-
-        aggregate_report["total_planned_actual_hours_delta"] = (
-            aggregate_report["total_planned_hours"]
-            - aggregate_report["total_actual_hours"]
-        )
-        aggregate_report["total_budget_sells_delta"] = (
-            aggregate_report["total_budget"] - aggregate_report["total_sells"]
+            total_planned_actual_hours_delta=Sum("planned_actual_hours_delta"),
+            total_budget_sells_delta=Sum("budget_sells_delta"),
         )
 
         return Response(aggregate_report)
