@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from .models import Report
 from .serializers import ReportSerializer
 from django_filters import rest_framework as filters
-from django.db.models import Sum
+from django.db.models import Sum, F
 
 
 class ReportFilter(filters.FilterSet):
@@ -19,6 +19,8 @@ class ReportFilter(filters.FilterSet):
             ("actual_hours", "actual_hours"),
             ("budget", "budget"),
             ("sells", "sells"),
+            ("planned_actual_hours_delta", "planned_actual_hours_delta"),
+            ("budget_sells_delta", "budget_sells_delta"),
         ),
     )
 
@@ -28,7 +30,12 @@ class ReportFilter(filters.FilterSet):
 
 
 class ListReportsView(ListAPIView):
-    queryset = Report.objects.all().order_by("id")
+    queryset = Report.objects.all().alias(
+        # duplicated logic with the model properties, but uses the DB for ordering
+        # which is more efficient
+        planned_actual_hours_delta=F("planned_hours") - F("actual_hours"),
+        budget_sells_delta=F("budget") - F("sells"),
+    )
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = ReportFilter
 
