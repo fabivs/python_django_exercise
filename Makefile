@@ -1,4 +1,4 @@
-.PHONY: up halt deps deps-update shell run db-migrate db-flush format check-formatted test
+.PHONY: up halt deps deps-update shell run run-shell db-migrate db-flush format check-formatted test
 
 up:
 	docker-compose up -d
@@ -17,6 +17,9 @@ shell:
 
 run:
 	python manage.py runserver
+
+run-shell:
+	python manage.py shell -i ipython
 
 db-migrate:
 	python manage.py migrate

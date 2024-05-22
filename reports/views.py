@@ -8,6 +8,21 @@ from django.db.models import Sum
 
 class ReportFilter(filters.FilterSet):
     restaurant = filters.CharFilter(lookup_expr="exact")
+    date__gte = filters.DateFilter(field_name="date", lookup_expr="gte")
+    date__lte = filters.DateFilter(field_name="date", lookup_expr="lte")
+
+    sort_by = filters.OrderingFilter(
+        fields=(
+            ("date", "date"),
+            ("restaurant", "restaurant"),
+            ("planned_hours", "planned_hours"),
+            ("actual_hours", "actual_hours"),
+            ("budget", "budget"),
+            ("sells", "sells"),
+            ("planned_actual_hours_difference", "planned_actual_hours_difference"),
+            ("budget_sells_difference", "budget_sells_difference"),
+        ),
+    )
 
     class Meta:
         model = Report
@@ -18,6 +33,14 @@ class ListReportsView(ListAPIView):
     queryset = Report.objects.all().order_by("id")
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = ReportFilter
+    ordering_fields = [
+        "planned_hours",
+        "actual_hours",
+        "budget",
+        "sells",
+        "planned_actual_hours_difference",
+        "budget_sells_difference",
+    ]
 
     def get(self, request, format=None):
         """

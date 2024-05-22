@@ -16,6 +16,26 @@ Required: python (pyenv suggested), poetry, postgres, docker
 With the server running, it is possible to call its APIs:
 - `GET /api/v1/reports` - get all reports
 
+Ordering fields:
+```
+date Date
+-date Date (descending)
+restaurant Restaurant
+-restaurant Restaurant (descending)
+planned_hours Planned hours
+-planned_hours Planned hours (descending)
+actual_hours Actual hours
+-actual_hours Actual hours (descending)
+budget Budget
+-budget Budget (descending)
+sells Sells
+-sells Sells (descending)
+planned_actual_hours_difference Planned actual hours difference
+-planned_actual_hours_difference Planned actual hours difference (descending)
+budget_sells_difference Budget sells difference
+-budget_sells_difference Budget sells difference (descending)
+```
+
 # Python Developer - Assignment
 
 L'esercizio consiste due fasi: importare dati in un database relazionale ed esporli tramite API REST.
